@@ -17,6 +17,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { fetchApi } from "@/lib/api";
+import { useAuthStore } from "@/store/auth-store";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -35,15 +37,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     setMounted(true);
-    const token = localStorage.getItem("x-api-key");
-    if (!token) {
-      router.push("/login");
-    }
-  }, [router]);
+  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("x-api-key");
-    router.push("/login");
+  const handleLogout = async () => {
+    try {
+      await fetchApi("/auth/logout", { method: "POST" });
+    } catch (e) {
+      // Ignore errors on logout
+    }
+    useAuthStore.getState().logout();
   };
 
   if (!mounted) return null;

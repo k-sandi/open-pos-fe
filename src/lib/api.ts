@@ -1,9 +1,11 @@
+import { useAuthStore } from "@/store/auth-store";
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
 
 export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   let apiKey = "";
   if (typeof window !== "undefined") {
-    apiKey = localStorage.getItem("x-api-key") || "";
+    apiKey = useAuthStore.getState().token || "";
   }
 
   const headers = new Headers(options.headers || {});
@@ -22,8 +24,7 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   // Auto redirect to login on 401
   if (response.status === 401) {
     if (typeof window !== "undefined") {
-      localStorage.removeItem("x-api-key");
-      window.location.href = "/login";
+      useAuthStore.getState().logout();
     }
   }
 
