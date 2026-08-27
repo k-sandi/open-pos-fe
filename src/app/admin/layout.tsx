@@ -15,7 +15,7 @@ import {
   LayoutDashboard
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { fetchApi } from "@/lib/api";
 import { useAuthStore } from "@/store/auth-store";
@@ -97,16 +97,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex flex-col">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <Sheet>
-            {/* @ts-ignore */}
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="shrink-0 md:hidden"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
+            <SheetTrigger 
+              className={buttonVariants({ variant: "outline", size: "icon", className: "shrink-0 md:hidden" })}
+            >
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle navigation menu</span>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col p-0 w-72">
               <Sidebar />
