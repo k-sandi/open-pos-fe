@@ -43,8 +43,8 @@ export default function LoginPage() {
         }),
       });
       
-      if (res && res.token) {
-        useAuthStore.getState().login(res.token);
+      if (res && res.access_token) {
+        useAuthStore.getState().login(res.access_token);
         router.push("/admin");
       } else {
         setError("Invalid credentials. Please try again.");
