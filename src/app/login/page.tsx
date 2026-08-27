@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { fetchApi } from "@/lib/api";
+import { useAuthStore } from "@/store/auth-store";
 
 const loginSchema = z.object({
   employeeId: z.string().min(1, { message: "Employee ID is required" }),
@@ -43,7 +44,7 @@ export default function LoginPage() {
       });
       
       if (res && res.token) {
-        localStorage.setItem("x-api-key", res.token);
+        useAuthStore.getState().login(res.token);
         router.push("/admin");
       } else {
         setError("Invalid credentials. Please try again.");
